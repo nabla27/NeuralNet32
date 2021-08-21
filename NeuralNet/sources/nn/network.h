@@ -20,8 +20,8 @@ namespace nn {
 		class OutType = ACTIVATION::Softmax
 	>
 	class Network :
-		protected virtual ACTIVATION::Affine,
-		protected virtual ACTIVATION::DropOut,
+		protected virtual Affine,
+		protected virtual DropOut,
 		protected virtual ActType,
 		protected virtual OutType,
 		public virtual OptType
@@ -138,8 +138,8 @@ namespace nn {
 
 		/* entoropy_error */
 		double tmp = 0.0;
-		size_t row = out.size();
-		size_t col = out[0].size();
+		const size_t row = out.size();
+		const size_t col = out[0].size();
 		for (size_t i = 0; i < row; ++i) {
 			for (size_t j = 0; j < col; ++j) {
 				tmp += batch_t[i][j] * log(out[i][j] + 1e-7);

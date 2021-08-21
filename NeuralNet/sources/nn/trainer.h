@@ -39,12 +39,12 @@ namespace nn {
 
 
 	//指定した時間の差分(ミリ秒)を経過日時に変換し、標準出力する
-	void show_time(clock_t start, clock_t end)
+	void show_time(const clock_t start, const clock_t end)
 	{
-		clock_t diff = (end - start) / CLOCKS_PER_SEC;
-		clock_t minutes = diff / 60;
-		clock_t hours = minutes / 60;
-		clock_t days = hours / 24;
+		const clock_t diff = (end - start) / CLOCKS_PER_SEC;
+		const clock_t minutes = diff / 60;
+		const clock_t hours = minutes / 60;
+		const clock_t days = hours / 24;
 		std::cout << "time: "
 			<< days << "days "
 			<< hours - days * 24 << "hours "
@@ -190,7 +190,7 @@ namespace nn {
 #endif
 
 		/* 学習時間の計測開始 */
-		clock_t start = clock();
+		const clock_t start = clock();
 
 		/* バッチデータの設定 */
 		if (custom.batch_size == 0) {
@@ -204,12 +204,12 @@ namespace nn {
 			//バッチ処理
 			if (custom.batch_size != 0)
 			{
-				if (step % (train_x.size() / custom.batch_size) == 0) {
+				if ((step - 1) % (train_x.size() / custom.batch_size) == 0) {
 					vec::shuffle(train_x, train_t);
 				}
 
-				size_t min_index = ((step - 1) % (train_x.size() / custom.batch_size)) * custom.batch_size;
-				size_t max_index = min_index + custom.batch_size - 1;
+				const size_t min_index = ((step - 1) % (train_x.size() / custom.batch_size)) * custom.batch_size;
+				const size_t max_index = min_index + custom.batch_size - 1;
 				size_t batch_index = 0;
 				for (size_t index = min_index; index <= max_index; ++index) {
 					batch_x[batch_index] = train_x[index];
@@ -225,7 +225,7 @@ namespace nn {
 			network.reset();
 
 			//精度の計算
-			if (custom.acc_span != 0 && step % custom.acc_span == 0)
+			if (custom.acc_span != 0 && (step - 1) % custom.acc_span == 0 && step != 1)
 			{
 				switch (custom.acc_type) {
 				case 0:
@@ -237,6 +237,15 @@ namespace nn {
 					test_acc = accuracy_t(test_x, test_t);
 					break;
 				}
+#if HAS_BOOST_HEADER
+				//高精度の時のxml出力
+				if (test_acc > custom.xmlout_inf) {
+					xmlout.xml_writer(
+						network.get_layerset(),
+						custom.file_path + "_" + std::to_string(step) + "_" + std::to_string(int(test_acc * 1000)) + ".xml"
+					);
+				}
+#endif
 			}
 
 			//標準出力
@@ -256,17 +265,10 @@ namespace nn {
 
 #if HAS_BOOST_HEADER
 			//xml出力
-			if (custom.xml_span != 0 && step % custom.xml_span == 0) {
+			if (custom.xml_span != 0 && (step - 1) % custom.xml_span == 0 && step != 1) {
 				xmlout.xml_writer(
 					network.get_layerset(),
 					custom.file_path + "_" + std::to_string(step) + ".xml"
-				);
-			}
-			//高精度の時のxml出力
-			if (test_acc > custom.xmlout_inf) {
-				xmlout.xml_writer(
-					network.get_layerset(),
-					custom.file_path + "_" + std::to_string(step) + "_" + std::to_string(int(test_acc * 1000)) + ".xml"
 				);
 			}
 #endif
@@ -319,8 +321,8 @@ namespace nn {
 		Network train_acc(network.get_layerset());
 		train_acc.forward(test_x, 0, false);
 
-		size_t row = train_acc.out.size();
-		size_t col = train_acc.out[0].size();
+		const size_t row = train_acc.out.size();
+		const size_t col = train_acc.out[0].size();
 		size_t count_col, count_row = 0;
 		for (size_t i = 0; i < row; ++i) {
 			count_col = 0;
@@ -356,8 +358,8 @@ namespace nn {
 		size_t max_index = 0;
 		std::vector<size_t> max_index_array(test_t.size());
 
-		size_t row = test_t.size();
-		size_t col = test_t[0].size();
+		const size_t row = test_t.size();
+		const size_t col = test_t[0].size();
 		for (size_t i = 0; i < row; ++i) {
 			for (size_t j = 0; j < col; ++j) {
 				if (train_acc.out[i][max_index] < train_acc.out[i][j]) { max_index = j; }

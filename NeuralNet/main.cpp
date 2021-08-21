@@ -26,6 +26,26 @@ int main()
 		train_x = train_x / 255;
 		test_x = test_x / 255;
 	}
+
+	vec::vector2d A = {
+		{1,1},
+		{2,2},
+		{3,3},
+		{4,4}
+	};
+	vec::vector2d B =
+	{
+		{1,1},
+		{2,2},
+		{3,3},
+		{4,4}
+	};
+	vec::shuffle(A, B);
+	vec::show(A, "A");
+	vec::show(B, "B");
+	(void)std::getchar();
+
+
 #elif 0
 	vec::vector2d train_x =
 	{
@@ -50,6 +70,8 @@ int main()
 	layerset.set_node({ 100 });
 	layerset.initialize();
 
+#if 0
+
 	/* 出力用フォルダーの作成 */
 	std::string path = "E:/MNIST/data/08200651";
 	std::filesystem::create_directory(path);
@@ -66,7 +88,7 @@ int main()
 
 	/* データのセットと訓練の開始 */
 	nn::Trainer<
-		nn::OPTIMIZER::AdaBelief,
+		nn::OPTIMIZER::SGD,
 		nn::ACTIVATION::tanhExp
 	> 
 		trainer(layerset);
@@ -83,9 +105,32 @@ int main()
 		std::cout << "boost-error: " << error.what() << std::endl;
 	}
 
+#endif
 
 
+	nn::Trainer
+		<
+		nn::OPTIMIZER::AdaBelief,
+		nn::ACTIVATION::tanhExp,
+		nn::ACTIVATION::Softmax
+		> 
+		trainer(layerset);
 
+	trainer.train_data(train_x, train_t);
+	trainer.test_data(test_x, test_t);
+
+	std::string path = "E:/MNIST/data/08212338";
+	std::filesystem::create_directory(path);
+
+	nn::default_custom.acc_span = 200;
+	nn::default_custom.batch_size = 100;
+	nn::default_custom.dropout_ratio = 0.5;
+	nn::default_custom.file_path = path + "/mnist";
+	nn::default_custom.learning_step = 50000;
+	nn::default_custom.xmlout_inf = 0.98;
+	nn::default_custom.xml_span = 0;
+
+	trainer.train(nn::default_custom);
 
 
 	
