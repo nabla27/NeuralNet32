@@ -172,6 +172,7 @@
     <ClInclude Include="sources\util\exchanding.h" />
     <ClInclude Include="sources\util\timer.h" />
     <ClInclude Include="sources\util\dir.h" />
+    <ClInclude Include="sources\util\cast.h" />
     <ClInclude Include="sources\vec\function.h" />
     <ClInclude Include="sources\vec\operator.h" />
     <ClInclude Include="sources\neuralnet32_nn.h" />

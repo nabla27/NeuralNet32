@@ -60,7 +60,7 @@ int main()
 		custom.acc_span = 200;
 		custom.batch_size = 200;
 		custom.dropout_ratio = 0.5;
-		custom.learning_step = 50000;
+		custom.learning_step = 5;
 		custom.xmlout_inf = 0.98f;
 		custom.xml_span = 0;
 

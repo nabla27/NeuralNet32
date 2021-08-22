@@ -8,6 +8,7 @@
 #include "io/ioxml.h"
 #include "util/timer.h"
 #include "util/dir.h"
+#include "util/cast.h"
 
 /* コンパイラのバージョンを確認 */
 #ifndef HAS_CPLUS_17
@@ -42,7 +43,10 @@
 
 
 
+
 namespace nn {
+
+
 
 
 
@@ -275,7 +279,7 @@ namespace nn {
 				if (test_acc > custom.xmlout_inf) {
 					io::xml_writer(
 						network.get_layerset(),
-						output_path + "_" + std::to_string(step) + "_" + std::to_string(int(test_acc * 1000)) + ".xml"
+						output_path + "_" + std::to_string(step) + "_" + std::to_string(int(test_acc * 10000)) + ".xml"
 					);
 				}
 #endif
@@ -329,6 +333,14 @@ namespace nn {
 			output_path + "_final.xml"
 		);
 #endif
+
+		/* 訓練の設定を出力 */
+		io::Txtout outinfo(output_path + "_info.txt");
+		outinfo.write("Optimizer:        ", typename_to_str<OptType>());
+		outinfo.write("Hidden_Activation:", typename_to_str<ActType>());
+		outinfo.write("Output_Activation:", typename_to_str<OutType>());
+		outinfo.write("batch-size:   ", custom.batch_size);
+		outinfo.write("dropout-ratio:", custom.dropout_ratio);
 
 		/* 学習時間を経過日時を出力 */
 		show_et(start, clock());
