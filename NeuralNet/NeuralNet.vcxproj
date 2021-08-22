@@ -131,7 +131,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard_C>Default</LanguageStandard_C>
       <AdditionalIncludeDirectories>E:\boost_libs\include\boost-1_76;E:\opencv\build\include;C:\Users\user\source\repos\NeuralNet32\NeuralNet\sources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -171,6 +171,7 @@
     <ClInclude Include="sources\io\ioimg.h" />
     <ClInclude Include="sources\util\exchanding.h" />
     <ClInclude Include="sources\util\timer.h" />
+    <ClInclude Include="sources\util\dir.h" />
     <ClInclude Include="sources\vec\function.h" />
     <ClInclude Include="sources\vec\operator.h" />
     <ClInclude Include="sources\neuralnet32_nn.h" />

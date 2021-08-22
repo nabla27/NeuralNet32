@@ -4,10 +4,39 @@
 #include <time.h>
 #include <conio.h>
 #include "network.h"
-#include "optimizer.h"
 #include "io/iotxt.h"
 #include "io/ioxml.h"
 #include "util/timer.h"
+#include "util/dir.h"
+
+/* コンパイラのバージョンを確認 */
+#ifndef HAS_CPLUS_17
+#define HAS_CPLUS_17 0
+#endif
+
+#ifdef _MSVC_LANG
+#if (_MSVC_LANG >= 201703L)	//c++17 or later
+
+#undef HAS_CPLUS_17
+#define HAS_CPLUS_17 1
+
+#endif
+#endif
+
+#ifdef __cplusplus
+#if (__cplusplus >= 201703L)	//c++17 or later
+
+#undef HAS_CPLUS_17
+#define HAS_CPLUS_17 1
+
+#endif
+#endif
+
+#if HAS_CPLUS_17
+#include <filesystem>
+#else
+#include <sys/stat.h>
+#endif
 
 
 
@@ -22,7 +51,6 @@ namespace nn {
 	{
 		unsigned learning_step = 10000;     //学習回数
 		unsigned batch_size = 0;            //バッチサイズ
-		std::string file_path = "./train";  //ファイルを出力するパスと基本名
 		double dropout_ratio = 0;           //ドロップアウトの割合
 		unsigned acc_span = 100;            //精度を計算する頻度
 		unsigned acc_type = 0;              //精度計算のタイプ
@@ -54,21 +82,24 @@ namespace nn {
 		vec::vector2d train_t;
 		vec::vector2d test_x;
 		vec::vector2d test_t;
+		std::string output_path = "./train";
 	public:
 		Network<OptType, ActType, OutType> network;
 	public:
 		Trainer(const LayerSet& layerset) :
 			network(layerset) {}
 
-		void train_data(
+		void set_TrainData(
 			const vec::vector2d& train_x,
 			const vec::vector2d& train_t
 		);
 
-		void test_data(
+		void set_TestData(
 			const vec::vector2d& test_x,
 			const vec::vector2d& test_t
 		);
+
+		void set_OutputPath(const std::string output_path);
 
 		void train(const TrainCustom custom = default_custom);
 
@@ -96,7 +127,7 @@ namespace nn {
 
 	//訓練データの設定
 	template <class OptType, class ActType, class OutType>
-	void Trainer<OptType, ActType, OutType>::train_data(
+	inline void Trainer<OptType, ActType, OutType>::set_TrainData(
 		const vec::vector2d& train_x,
 		const vec::vector2d& train_t
 	)
@@ -121,7 +152,7 @@ namespace nn {
 
 	//テスト用データの設定
 	template <class OptType, class ActType, class OutType>
-	void Trainer<OptType, ActType, OutType>::test_data(
+	inline void Trainer<OptType, ActType, OutType>::set_TestData(
 		const vec::vector2d& test_x,
 		const vec::vector2d& test_t
 	)
@@ -144,6 +175,36 @@ namespace nn {
 
 
 
+	//出力するファイルのパスの設定
+	template <class OptType, class ActType, class OutType>
+	inline void Trainer<OptType, ActType, OutType>::set_OutputPath(
+		const std::string output_path
+	)
+	{
+#if HAS_CPLUS_17
+		if (!std::filesystem::is_directory(get_parentdir(output_path))) { 
+			std::filesystem::create_directory(get_parentdir(output_path));
+			std::cout << "created a directory ... " << get_parentdir(output_path) << std::endl;
+		}
+		this->output_path = output_path;
+#else
+		struct stat statBuf;
+		const char* directory_name = get_parentdir(output_path).c_str();
+		
+		if (stat(directory_name, &statBuf) != 0) {
+			//ディレクトリが存在しない場合の例外処理
+			exchandling::not_exist_path(__FILE__, __LINE__, "Trainer::set_OutPath");
+		}
+		else { this->output_path = output_path; }
+#endif
+	}
+
+
+
+
+
+
+
 	//訓練
 	template <class OptType, class ActType, class OutType>
 	void Trainer<OptType, ActType, OutType>::train(const TrainCustom custom)
@@ -154,18 +215,12 @@ namespace nn {
 		/* 指定したバッチサイズがデータサイズよりも大きかった場合の例外処理 */
 		if (train_x.size() < custom.batch_size) { exchandling::invalid_batch_size(__FILE__, __LINE__, "Trainer::train"); }
 
-		bool break_flag = false;                   //訓練を終了するフラグ
-		float train_acc = 0;                       //訓練データの精度
-		float test_acc = 0;                        //テストデータの精度
-		vec::vector2d batch_x(custom.batch_size);  //訓練データのバッチ
-		vec::vector2d batch_t(custom.batch_size);  //ラベルのバッチ
-
-		io::Txtout txtout(custom.file_path + "_log.txt");  //誤差と精度のテキスト出力
-		/*
-#if HAS_BOOST_HEADER
-		filing::IOxml xmlout;                                 //重みやバイアスのxml出力
-#endif
-		*/
+		bool break_flag = false;                      //訓練を終了するフラグ
+		float train_acc = 0;                          //訓練データの精度
+		float test_acc = 0;                           //テストデータの精度
+		vec::vector2d batch_x(custom.batch_size);     //訓練データのバッチ
+		vec::vector2d batch_t(custom.batch_size);     //ラベルのバッチ
+		io::Txtout txtout(output_path + "_log.txt");  //誤差と精度のテキスト出力
 
 		/* 学習時間の計測開始 */
 		const clock_t start = clock();
@@ -220,7 +275,7 @@ namespace nn {
 				if (test_acc > custom.xmlout_inf) {
 					io::xml_writer(
 						network.get_layerset(),
-						custom.file_path + "_" + std::to_string(step) + "_" + std::to_string(int(test_acc * 1000)) + ".xml"
+						output_path + "_" + std::to_string(step) + "_" + std::to_string(int(test_acc * 1000)) + ".xml"
 					);
 				}
 #endif
@@ -246,7 +301,7 @@ namespace nn {
 			if (custom.xml_span != 0 && (step - 1) % custom.xml_span == 0 && step != 1) {
 				io::xml_writer(
 					network.get_layerset(),
-					custom.file_path + "_" + std::to_string(step) + ".xml"
+					output_path + "_" + std::to_string(step) + ".xml"
 				);
 			}
 #endif
@@ -271,7 +326,7 @@ namespace nn {
 		/* 最終パラメータの出力 */
 		io::xml_writer(
 			network.get_layerset(),
-			custom.file_path + "_final.xml"
+			output_path + "_final.xml"
 		);
 #endif
 
@@ -296,7 +351,7 @@ namespace nn {
 	{
 		if (test_x.size() == 0) { return 0; }
 
-		Network train_acc(network.get_layerset());
+		Network<OptType, ActType, OutType> train_acc(network.get_layerset());
 		train_acc.forward(test_x, 0, false);
 
 		const size_t row = train_acc.out.size();
@@ -330,7 +385,7 @@ namespace nn {
 	{
 		if (test_x.size() == 0) { return 0; }
 
-		Network train_acc(network.get_layerset());
+		Network<OptType, ActType, OutType> train_acc(network.get_layerset());
 		train_acc.forward(test_x, 0, false);
 
 		size_t max_index = 0;

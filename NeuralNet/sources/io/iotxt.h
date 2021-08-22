@@ -1,5 +1,5 @@
-#ifndef FILING_IOTXT_H
-#define FILING_IOTXT_H
+#ifndef IO_IOTXT_H
+#define IO_IOTXT_H
 
 #include <fstream>
 #include <string>
@@ -12,7 +12,7 @@ namespace io {
 
 	class Txtout {
 	private:
-		std::string file_name = "./iotxt";
+		std::string file_name = "./out.txt";
 	public:
 		Txtout(std::string f_name, bool rewrite = true);
 
@@ -38,4 +38,4 @@ namespace io {
 }
 
 
-#endif //FILING_IOTXT_H
+#endif //IO_IOTXT_H

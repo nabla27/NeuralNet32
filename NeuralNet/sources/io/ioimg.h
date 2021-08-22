@@ -1,5 +1,5 @@
-#ifndef READING_IMG1CH_H
-#define READING_IMG1CH_H
+#ifndef IO_IOIMG_H
+#define IO_IOIMG_H
 
 
 
@@ -267,5 +267,5 @@ namespace io {
 
 #endif //HAS_CPLUS_17
 
-#endif //READING_IMG1CH_H
+#endif //IO_IOIMG_H
 

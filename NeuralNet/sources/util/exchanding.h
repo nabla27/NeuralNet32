@@ -67,6 +67,18 @@ namespace exchandling
 	}
 
 
+	inline void not_exist_path
+	(
+		const char* file,
+		const unsigned line,
+		const char* str
+	)
+	{
+		outinfo(file, line, str);
+		throw std::runtime_error("MESSAGE : The path does not exist.");
+	}
+
+
 
 
 

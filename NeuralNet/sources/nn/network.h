@@ -3,7 +3,7 @@
 
 #include "activation.h"
 #include "layerset.h"
-#include "optimizer.h"
+#include "optimizer/sgd.h"
 
 
 

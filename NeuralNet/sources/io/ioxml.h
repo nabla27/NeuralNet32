@@ -1,5 +1,5 @@
-#ifndef FILING_IOXML_H
-#define FILING_IOXML_H
+#ifndef IO_IOXML_H
+#define IO_IOXML_H
 
 
 /* boostライブラリがパスに存在するかのマクロ定義 */
@@ -208,4 +208,4 @@ namespace io {
 
 #endif //__has_include
 
-#endif //FILING_IOXML_H
+#endif //IO_IOXML_H

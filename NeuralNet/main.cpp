@@ -1,15 +1,14 @@
 #include "neuralnet32_nn.h"
 #include "io/ioimg.h"
-#if HAS_OPENCV_HEADER
+#if HAS_OPENCV_HEADER && HAS_CPLUS_17
 #pragma comment(lib, "opencv_world452.lib")
 #endif
-
 
 
 int main()
 {
 
-#if HAS_OPENCV_HEADER //MNISTデータ
+#if HAS_OPENCV_HEADER && HAS_CPLUS_17 //MNISTデータ
 
 	/* 画像の読み取り */
 	io::ReadImg read_train_img;
@@ -48,7 +47,6 @@ int main()
 #endif
 
 
-
 	try 
 	{
 
@@ -57,12 +55,11 @@ int main()
 		layerset.set_node({ 100 });
 		layerset.initialize();
 
-		/* 学習の設定 */
+		/* 学習の詳細設定 */
 		nn::TrainCustom custom;
 		custom.acc_span = 200;
 		custom.batch_size = 200;
 		custom.dropout_ratio = 0.5;
-		custom.file_path = "E:/MNIST/data/test/mnist";
 		custom.learning_step = 50000;
 		custom.xmlout_inf = 0.98f;
 		custom.xml_span = 0;
@@ -73,8 +70,9 @@ int main()
 			nn::ACTIVATION::tanhExp,
 			nn::ACTIVATION::Softmax
 			> trainer(layerset);
-		trainer.train_data(train_x, train_t);
-		trainer.test_data(test_x, test_t);
+		trainer.set_TrainData(train_x, train_t);
+		trainer.set_TestData(test_x, test_t);
+		trainer.set_OutputPath("E:/MNIST/data/test/mnist");
 		trainer.train(custom);
 
 
@@ -87,5 +85,8 @@ int main()
 
 
 
+
+
 	return 0;
 }
+
