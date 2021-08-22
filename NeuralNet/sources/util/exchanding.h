@@ -63,7 +63,7 @@ namespace exchandling
 	)
 	{
 		outinfo(file, line, str);
-		throw std::runtime_error("MESSAGE : The data or label is an invalid size.");
+		throw std::runtime_error("MESSAGE : The data received is an invalid size.");
 	}
 
 

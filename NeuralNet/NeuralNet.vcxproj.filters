@@ -26,13 +26,13 @@
     <ClInclude Include="sources\vec\operator.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\filing\iotxt.h">
+    <ClInclude Include="sources\io\iotxt.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\filing\ioxml.h">
+    <ClInclude Include="sources\io\ioxml.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\reading\img1ch.h">
+    <ClInclude Include="sources\io\ioimg.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="sources\nn\activation.h">

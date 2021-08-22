@@ -5,8 +5,8 @@
 #include <conio.h>
 #include "network.h"
 #include "optimizer.h"
-#include "filing/iotxt.h"
-#include "filing/ioxml.h"
+#include "io/iotxt.h"
+#include "io/ioxml.h"
 #include "util/timer.h"
 
 
@@ -160,10 +160,12 @@ namespace nn {
 		vec::vector2d batch_x(custom.batch_size);  //訓練データのバッチ
 		vec::vector2d batch_t(custom.batch_size);  //ラベルのバッチ
 
-		filing::IOtxt txtout(custom.file_path + "_log.txt");  //誤差と精度のテキスト出力
+		io::Txtout txtout(custom.file_path + "_log.txt");  //誤差と精度のテキスト出力
+		/*
 #if HAS_BOOST_HEADER
 		filing::IOxml xmlout;                                 //重みやバイアスのxml出力
 #endif
+		*/
 
 		/* 学習時間の計測開始 */
 		const clock_t start = clock();
@@ -216,7 +218,7 @@ namespace nn {
 #if HAS_BOOST_HEADER
 				//高精度の時のxml出力
 				if (test_acc > custom.xmlout_inf) {
-					xmlout.xml_writer(
+					io::xml_writer(
 						network.get_layerset(),
 						custom.file_path + "_" + std::to_string(step) + "_" + std::to_string(int(test_acc * 1000)) + ".xml"
 					);
@@ -242,7 +244,7 @@ namespace nn {
 #if HAS_BOOST_HEADER
 			//xml出力
 			if (custom.xml_span != 0 && (step - 1) % custom.xml_span == 0 && step != 1) {
-				xmlout.xml_writer(
+				io::xml_writer(
 					network.get_layerset(),
 					custom.file_path + "_" + std::to_string(step) + ".xml"
 				);
@@ -267,7 +269,7 @@ namespace nn {
 
 #if HAS_BOOST_HEADER
 		/* 最終パラメータの出力 */
-		xmlout.xml_writer(
+		io::xml_writer(
 			network.get_layerset(),
 			custom.file_path + "_final.xml"
 		);

@@ -55,27 +55,26 @@
 
 #if HAS_CPLUS_17
 #if HAS_OPENCV_HEADER
-#ifdef USE_OPENCV	//Img1chクラスを使うにはこのマクロ定義が事前に必要
 
 #include <vector>
 #include <filesystem>	//c++17 or later
 #include <typeinfo>
 #include <opencv2/opencv.hpp>
+#include "util/exchanding.h"
+#include "vec/function.h"
 
 
 
 
 
-namespace reading {
+namespace io {
 
 
 
 
 
 
-
-
-	class Img1ch {
+	class ReadImg {
 	private:
 		vec::vector2d img_x;
 		vec::vector2d img_t;
@@ -85,17 +84,8 @@ namespace reading {
 		void to_vector(
 			const std::string path,
 			const double scale = 0.5,
-			bool disp = false
+			const bool disp = false
 		);
-
-		/*
-		template <class T = unsigned char>
-		void to_img(
-			const VEC::vector1d& mat,
-			const int row,
-			const int col
-		) const;
-		*/
 
 		inline vec::vector2d get_x() const { return img_x; }
 		inline vec::vector2d get_t() const { return img_t; }
@@ -135,10 +125,10 @@ namespace reading {
 	* ベルを生成する。
 	* **************************************************/
 
-	void Img1ch::to_vector(
+	void ReadImg::to_vector(
 		const std::string path,
 		const double scale,
-		bool disp
+		const bool disp
 	)
 	{
 		namespace fs = std::filesystem;
@@ -146,7 +136,7 @@ namespace reading {
 		std::cout << "---------- loading images ----------" << std::endl;
 
 		/* 指定したパスがディレクトリであるか、そのディレクトリ下にフォルダーがいくつあるか */
-		size_t num_type = 0;	//画像分類数(指定パス下のディレクトリ数)
+		size_t num_type = 0;    //画像分類数(指定パス下のディレクトリ数)
 		if (fs::is_directory(path)) {
 			for (const auto& p : fs::recursive_directory_iterator(path)) {
 				if (fs::is_directory(p.path())) { num_type++; }
@@ -158,10 +148,10 @@ namespace reading {
 		}
 
 		cv::Mat img, dst;
-		std::vector<double> img_vec;	//1画像分を格納する
-		int index = 0;	//何個目の画像か
-		int type = 0;	//画像の分類番号
-		int width, height;	//画像のサイズ
+		std::vector<double> img_vec;    //1画像分を格納する
+		int index = 0;                  //何個目の画像か
+		int type = 0;                   //画像の分類番号
+		int width, height;              //画像のサイズ
 
 		/* 画像をvector配列に変換 */
 		for (const auto& dir_name : fs::recursive_directory_iterator(path))
@@ -169,11 +159,11 @@ namespace reading {
 			if (fs::is_directory(dir_name.path()))
 			{
 				std::cout << "open folder : " << dir_name.path().string() << std::endl;
-				std::string folder = dir_name.path().string();	//画像の入ったフォルダー名
+				std::string folder = dir_name.path().string();    //画像の入ったフォルダー名
 
 				for (const auto& file : fs::recursive_directory_iterator(folder))
 				{
-					img = cv::imread(file.path().string());	//画像データ
+					img = cv::imread(file.path().string());       //画像データ
 
 					if (img.empty()) {
 						std::cout << "cannot load : " << file.path().string() << std::endl;
@@ -182,14 +172,14 @@ namespace reading {
 					{
 						if (disp) { std::cout << "loading ... " << file.path().string() << std::endl; }
 
-						cv::cvtColor(img, dst, cv::COLOR_RGB2GRAY);	//画像imgをグレイスケール(白黒)に変換
+						cv::cvtColor(img, dst, cv::COLOR_RGB2GRAY);    //画像imgをグレイスケール(白黒)に変換
 
-						if (index == 0) {	//一枚目の画像を元にスケール変換後のサイズを決める
+						if (index == 0) {    //一枚目の画像を元にスケール変換後のサイズを決める
 
 							width = (int)(dst.cols * scale);
 							height = (int)(dst.rows * scale);
 						}
-						if (dst.cols != width || dst.rows != height) {	//画像のサイズを揃える
+						if (dst.cols != width || dst.rows != height) {    //画像のサイズを揃える
 							cv::resize(dst, dst, cv::Size(width, height));
 						}
 
@@ -197,8 +187,8 @@ namespace reading {
 						this->row = dst.rows;
 						this->col = dst.cols;
 
-						dst = dst.reshape(0, 1);	//1次元配列に変換
-						dst.copyTo(img_vec);	//cv::mat型からvector型に変換
+						dst = dst.reshape(0, 1);    //1次元配列に変換
+						dst.copyTo(img_vec);        //cv::mat型からvector型に変換
 						img_x.push_back(img_vec);
 						img_t.push_back(vec::vector1d(num_type, 0));
 						img_t[index][type] = 1;
@@ -222,20 +212,17 @@ namespace reading {
 
 	/* 1次元配列を指定したサイズで画像に変換し、表示する */
 	template <class T = unsigned char>
-	void to_img(
+	cv::Mat to_img(
 		const vec::vector1d& mat,
 		const int row,
 		const int col
 	)
 	{
 		//引数で指定されたサイズとvector配列のサイズが一致しない例外処理
-		if (mat.size() != (size_t)row * (size_t)col) {
-			std::cout << "ERROR IN img1ch.h " << __LINE__ << " <Img1ch::to_img()> " << "{ The arguments size and the imgage size do not match }" << std::endl;
-			throw std::runtime_error("The arguments size and img size must be the same.");
-		}
+		if (mat.size() != (size_t)row * (size_t)col) { exchandling::mismatch_data_size(__FILE__, __LINE__, "to_img"); }
 
-		const int dimensions = 2;	//次元数
-		const int sizes[dimensions] = { row, col };	//画像サイズ
+		const int dimensions = 2;                   //次元数
+		const int sizes[dimensions] = { row, col }; //画像サイズ
 
 		//Matのタイプ変換
 		int image_type = 0;
@@ -257,12 +244,7 @@ namespace reading {
 			}
 		}
 
-		//画像の表示
-		cv::namedWindow("img", cv::WINDOW_NORMAL);
-		cv::imshow("img", image);
-		cv::waitKey(0);
-		cv::destroyAllWindows();
-
+		return image;
 	}
 
 
@@ -280,8 +262,6 @@ namespace reading {
 
 
 
-
-#endif //USE_OPENCV
 
 #endif //HAS_OPENCV_HEADER
 

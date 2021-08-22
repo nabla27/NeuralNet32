@@ -16,8 +16,8 @@ namespace vec {
 
 	vector2d operator+(const vector2d& matA, const vector2d& matB) {
 		vector2d ad(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				ad[i][j] = matA[i][j] + matB[i][j];
@@ -27,8 +27,8 @@ namespace vec {
 	}
 	vector2d operator+(const vector2d& matA, const vector1d& matB) {
 		vector2d ad(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				ad[i][j] = matA[i][j] + matB[j];
@@ -38,8 +38,8 @@ namespace vec {
 	}
 	vector2d operator+(const vector1d& matA, const vector2d& matB) {
 		vector2d ad(matB.size(), vector1d(matB[0].size()));
-		size_t max_a = matB.size();
-		size_t max_b = matB[0].size();
+		const size_t max_a = matB.size();
+		const size_t max_b = matB[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				ad[i][j] = matB[i][j] + matA[j];
@@ -49,8 +49,8 @@ namespace vec {
 	}
 	vector2d operator+(const vector2d& matA, const double val) {
 		vector2d ad(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				ad[i][j] = matA[i][j] + val;
@@ -60,8 +60,8 @@ namespace vec {
 	}
 	vector2d operator+(const double val, const vector2d& matA) {
 		vector2d ad(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				ad[i][j] = matA[i][j] + val;
@@ -71,7 +71,7 @@ namespace vec {
 	}
 	vector1d operator+(const vector1d& matA, const vector1d& matB) {
 		vector1d tmp(matA.size());
-		size_t max = matA.size();
+		const size_t max = matA.size();
 		for (size_t i = 0; i < max; i++) {
 			tmp[i] = matA[i] + matB[i];
 		}
@@ -79,7 +79,7 @@ namespace vec {
 	}
 	vector1d operator+(const vector1d& matA, const double val) {
 		vector1d tmp(matA.size());
-		size_t max = matA.size();
+		const size_t max = matA.size();
 		for (size_t i = 0; i < max; i++) {
 			tmp[i] = matA[i] + val;
 		}
@@ -87,7 +87,7 @@ namespace vec {
 	}
 	vector1d operator+(const double val, const vector1d& matA) {
 		vector1d tmp(matA.size());
-		size_t max = matA.size();
+		const size_t max = matA.size();
 		for (size_t i = 0; i < max; i++) {
 			tmp[i] = matA[i] + val;
 		}
@@ -97,8 +97,8 @@ namespace vec {
 
 	vector2d operator-(const vector2d& matA, const vector2d& matB) {
 		vector2d tmp(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matA[i][j] - matB[i][j];
@@ -108,8 +108,8 @@ namespace vec {
 	}
 	vector2d operator-(const vector2d& matA, const vector1d& matB) {
 		vector2d tmp(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matA[i][j] - matB[j];
@@ -120,8 +120,8 @@ namespace vec {
 
 	vector2d operator-(const vector1d& matA, const vector2d& matB) {
 		vector2d tmp(matB.size(), vector1d(matB[0].size()));
-		size_t max_a = matB.size();
-		size_t max_b = matB[0].size();
+		const size_t max_a = matB.size();
+		const size_t max_b = matB[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matA[j] - matB[i][j];
@@ -131,8 +131,8 @@ namespace vec {
 	}
 	vector2d operator-(const vector2d& matA, const double val) {
 		vector2d tmp(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matA[i][j] - val;
@@ -142,8 +142,8 @@ namespace vec {
 	}
 	vector2d operator-(const double val, const vector2d& matA) {
 		vector2d tmp(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = val - matA[i][j];
@@ -153,7 +153,7 @@ namespace vec {
 	}
 	vector1d operator-(const vector1d& matA, const vector1d& matB) {
 		vector1d tmp(matA.size());
-		size_t max = matA.size();
+		const size_t max = matA.size();
 		for (size_t i = 0; i < max; i++) {
 			tmp[i] = matA[i] - matB[i];
 		}
@@ -161,7 +161,7 @@ namespace vec {
 	}
 	vector1d operator-(const vector1d& matA, const double val) {
 		vector1d tmp(matA.size());
-		size_t max = matA.size();
+		const size_t max = matA.size();
 		for (size_t i = 0; i < max; i++) {
 			tmp[i] = matA[i] - val;
 		}
@@ -169,7 +169,7 @@ namespace vec {
 	}
 	vector1d operator-(const double val, const vector1d& matA) {
 		vector1d tmp(matA.size());
-		size_t max = matA.size();
+		const size_t max = matA.size();
 		for (size_t i = 0; i < max; i++) {
 			tmp[i] = val - matA[i];
 		}
@@ -181,8 +181,8 @@ namespace vec {
 
 	vector2d operator*(const vector2d& matA, const vector2d& matB) {
 		vector2d tmp(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matA[i][j] * matB[i][j];
@@ -192,8 +192,8 @@ namespace vec {
 	}
 	vector2d operator*(const vector2d& matA, const vector1d& matB) {
 		vector2d tmp(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matA[i][j] * matB[j];
@@ -203,8 +203,8 @@ namespace vec {
 	}
 	vector2d operator*(const vector1d& matA, const vector2d& matB) {
 		vector2d tmp(matB.size(), vector1d(matB[0].size()));
-		size_t max_a = matB.size();
-		size_t max_b = matB[0].size();
+		const size_t max_a = matB.size();
+		const size_t max_b = matB[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matB[i][j] * matA[j];
@@ -214,8 +214,8 @@ namespace vec {
 	}
 	vector2d operator*(const vector2d& matA, const double val) {
 		vector2d tmp(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matA[i][j] * val;
@@ -225,8 +225,8 @@ namespace vec {
 	}
 	vector2d operator*(const double val, const vector2d& matA) {
 		vector2d tmp(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matA[i][j] * val;
@@ -236,7 +236,7 @@ namespace vec {
 	}
 	vector1d operator*(const vector1d& matA, const vector1d& matB) {
 		vector1d tmp(matA.size());
-		size_t max = matA.size();
+		const size_t max = matA.size();
 		for (size_t i = 0; i < max; i++) {
 			tmp[i] = matA[i] * matB[i];
 		}
@@ -244,7 +244,7 @@ namespace vec {
 	}
 	vector1d operator*(const vector1d& matA, const double val) {
 		vector1d tmp(matA.size());
-		size_t max = matA.size();
+		const size_t max = matA.size();
 		for (size_t i = 0; i < max; i++) {
 			tmp[i] = matA[i] * val;
 		}
@@ -252,7 +252,7 @@ namespace vec {
 	}
 	vector1d operator*(const double val, const vector1d& matA) {
 		vector1d tmp(matA.size());
-		size_t max = matA.size();
+		const size_t max = matA.size();
 		for (size_t i = 0; i < max; i++) {
 			tmp[i] = matA[i] * val;
 		}
@@ -263,8 +263,8 @@ namespace vec {
 
 	vector2d operator/(const vector2d& matA, const vector2d& matB) {
 		vector2d tmp(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matA[i][j] / matB[i][j];
@@ -274,8 +274,8 @@ namespace vec {
 	}
 	vector2d operator/(const vector2d& matA, const vector1d& matB) {
 		vector2d tmp(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matA[i][j] / matB[j];
@@ -285,8 +285,8 @@ namespace vec {
 	}
 	vector2d operator/(const vector1d& matA, const vector2d& matB) {
 		vector2d tmp(matB.size(), vector1d(matB[0].size()));
-		size_t max_a = matB.size();
-		size_t max_b = matB[0].size();
+		const size_t max_a = matB.size();
+		const size_t max_b = matB[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matA[j] / matB[i][j];
@@ -296,8 +296,8 @@ namespace vec {
 	}
 	vector2d operator/(const vector2d& matA, const double val) {
 		vector2d tmp(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = matA[i][j] / val;
@@ -307,8 +307,8 @@ namespace vec {
 	}
 	vector2d operator/(const double val, const vector2d& matA) {
 		vector2d tmp(matA.size(), vector1d(matA[0].size()));
-		size_t max_a = matA.size();
-		size_t max_b = matA[0].size();
+		const size_t max_a = matA.size();
+		const size_t max_b = matA[0].size();
 		for (size_t i = 0; i < max_a; i++) {
 			for (size_t j = 0; j < max_b; j++) {
 				tmp[i][j] = val / matA[i][j];
@@ -318,7 +318,7 @@ namespace vec {
 	}
 	vector1d operator/(const vector1d& matA, const vector1d& matB) {
 		vector1d tmp(matA.size());
-		size_t max = matA.size();
+		const size_t max = matA.size();
 		for (size_t i = 0; i < max; i++) {
 			tmp[i] = matA[i] / matB[i];
 		}
@@ -326,7 +326,7 @@ namespace vec {
 	}
 	vector1d operator/(const vector1d& matA, const double val) {
 		vector1d tmp(matA.size());
-		size_t max = matA.size();
+		const size_t max = matA.size();
 		for (size_t i = 0; i < max; i++) {
 			tmp[i] = matA[i] / val;
 		}
@@ -334,7 +334,7 @@ namespace vec {
 	}
 	vector1d operator/(const double val, const vector1d& matA) {
 		vector1d tmp(matA.size());
-		size_t max = matA.size();
+		const size_t max = matA.size();
 		for (size_t i = 0; i < max; i++) {
 			tmp[i] = val / matA[i];
 		}

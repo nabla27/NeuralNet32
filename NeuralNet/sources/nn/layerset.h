@@ -57,9 +57,6 @@ namespace nn {
 		//データがセットされていない場合の例外処理
 		if (data_size == 0) { exchandling::empty_data(__FILE__, __LINE__, "LayerSet::initialize"); }
 
-		std::random_device rnd;
-		std::mt19937 mt(rnd());         //乱数のシード値を取得
-
 		weights.clear(); bias.clear();  //重みとバイアスをリセット
 
 		std::vector<size_t> index;      //重みとバイアスのサイズを一時記憶する配列
@@ -75,7 +72,7 @@ namespace nn {
 			bias.push_back(vec::vector1d(index[i + 1], 0));
 		}
 
-		//重みの各要素を正規分布で初期化する
+		//重みの各要素を初期化する
 		const size_t size = weights.size();
 		for (size_t i = 0; i < size; i++)
 		{
@@ -90,17 +87,7 @@ namespace nn {
 			default: break;
 			}
 
-			if (type != InitType::Unify)
-			{
-				std::normal_distribution<> norm(0.0, variance);	//標準正規分布で乱数を生成
-
-				for (size_t j = 0; j < row; j++) {
-					const size_t col = weights[i][j].size();
-					for (size_t k = 0; k < col; k++) {
-						weights[i][j][k] = norm(mt);
-					}
-				}
-			}
+			if (type != InitType::Unify) { vec::initgauss(weights[i], 0.0, variance); }
 			else if (type == InitType::Unify) { vec::initequal(weights, val); }
 		}
 	}

@@ -1,5 +1,5 @@
-#define USE_OPENCV
 #include "neuralnet32_nn.h"
+#include "io/ioimg.h"
 #if HAS_OPENCV_HEADER
 #pragma comment(lib, "opencv_world452.lib")
 #endif
@@ -12,8 +12,8 @@ int main()
 #if HAS_OPENCV_HEADER //MNISTデータ
 
 	/* 画像の読み取り */
-	reading::Img1ch read_train_img;
-	reading::Img1ch read_test_img;
+	io::ReadImg read_train_img;
+	io::ReadImg read_test_img;
 	read_train_img.to_vector("E:/MNIST/IMG/train_x", 1);
 	read_test_img.to_vector("E:/MNIST/IMG/test_x", 1);
 	vec::vector2d train_x = read_train_img.get_x();
@@ -26,7 +26,7 @@ int main()
 		test_x = test_x / 255;
 	}
 
-#elif 0 //XORゲート
+#else //XORゲート
 
 	vec::vector2d train_x =
 	{

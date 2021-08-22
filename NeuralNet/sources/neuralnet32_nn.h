@@ -7,8 +7,11 @@
 
 
 
-#include "filing/iotxt.h"
-#include "filing/ioxml.h"
+#include "io/iotxt.h"
+#include "io/ioxml.h"
+#ifdef USE_OPENCV
+#include "io/ioimg.h"
+#endif
 
 #ifndef SPECIFY_OPTIMIZER
 #include "nn/optimizer.h"
@@ -18,8 +21,6 @@
 #include "nn/layerset.h"
 #include "nn/network.h"
 #include "nn/trainer.h"
-
-#include "reading/img1ch.h"
 
 #include "vec/function.h"
 #include "vec/operator.h"

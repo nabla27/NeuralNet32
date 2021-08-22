@@ -51,20 +51,15 @@
 
 
 
-namespace filing {
+namespace io {
 
 
 
 
-	class IOxml {
+	class Xmlout {
 	private:
 		nn::LayerSet read_layer;
 	public:
-		void xml_writer(
-			const nn::LayerSet& layerset,
-			const std::string file_name
-		) const;
-
 		void xml_reader(const std::string file_name);
 
 		inline nn::LayerSet get_layerset() const { return read_layer; }
@@ -73,59 +68,10 @@ namespace filing {
 
 
 
-	void IOxml::xml_writer(
-		const nn::LayerSet& layerset,
-		const std::string file_name
-	) const
-	{
-		using namespace boost::property_tree;
-
-		ptree pt;
-
-		//訓練データのサイズ
-		pt.add("root.DataSize", layerset.weights[0].size());
-
-		//ラベルのサイズ
-		pt.add("root.LabelSize", layerset.weights[layerset.weights.size() - 1][0].size());
-
-		//ノード数
-		ptree& child_node = pt.add("root.Node", "");
-		size_t node_size = layerset.node.size();
-		for (size_t i = 0; i < node_size; ++i) {
-			child_node.add("value", layerset.node[i]);
-		}
-
-		//重み
-		ptree& child_weights = pt.add("root.Weights", "");
-		size_t nn_size = layerset.weights.size();
-		for (size_t i = 0; i < nn_size; ++i) {
-			size_t row = layerset.weights[i].size();
-			for (size_t j = 0; j < row; ++j) {
-				size_t col = layerset.weights[i][j].size();
-				for (size_t k = 0; k < col; ++k) {
-					child_weights.add("w", layerset.weights[i][j][k]);
-				}
-			}
-		}
-
-		//バイアス
-		ptree& child_bias = pt.add("root.bias", "");
-		for (size_t i = 0; i < nn_size; ++i) {
-			size_t size_b = layerset.bias[i].size();
-			for (size_t j = 0; j < size_b; ++j) {
-				child_bias.add("b", layerset.bias[i][j]);
-			}
-		}
-
-		const int indent = 4; //出力ファイルでのインデント数
-		write_xml(file_name, pt, std::locale(), xml_writer_make_settings<std::string>(' ', indent, "utf-8"));
-	}
 
 
 
-
-
-	void IOxml::xml_reader(const std::string file_name)
+	void Xmlout::xml_reader(const std::string file_name)
 	{
 		using namespace boost::property_tree;
 
@@ -182,6 +128,61 @@ namespace filing {
 
 
 
+
+
+
+
+
+
+
+
+	void xml_writer(
+		const nn::LayerSet& layerset,
+		const std::string file_name
+	)
+	{
+		using namespace boost::property_tree;
+
+		ptree pt;
+
+		//訓練データのサイズ
+		pt.add("root.DataSize", layerset.weights[0].size());
+
+		//ラベルのサイズ
+		pt.add("root.LabelSize", layerset.weights[layerset.weights.size() - 1][0].size());
+
+		//ノード数
+		ptree& child_node = pt.add("root.Node", "");
+		size_t node_size = layerset.node.size();
+		for (size_t i = 0; i < node_size; ++i) {
+			child_node.add("value", layerset.node[i]);
+		}
+
+		//重み
+		ptree& child_weights = pt.add("root.Weights", "");
+		size_t nn_size = layerset.weights.size();
+		for (size_t i = 0; i < nn_size; ++i) {
+			size_t row = layerset.weights[i].size();
+			for (size_t j = 0; j < row; ++j) {
+				size_t col = layerset.weights[i][j].size();
+				for (size_t k = 0; k < col; ++k) {
+					child_weights.add("w", layerset.weights[i][j][k]);
+				}
+			}
+		}
+
+		//バイアス
+		ptree& child_bias = pt.add("root.bias", "");
+		for (size_t i = 0; i < nn_size; ++i) {
+			size_t size_b = layerset.bias[i].size();
+			for (size_t j = 0; j < size_b; ++j) {
+				child_bias.add("b", layerset.bias[i][j]);
+			}
+		}
+
+		const int indent = 4; //出力ファイルでのインデント数
+		write_xml(file_name, pt, std::locale(), xml_writer_make_settings<std::string>(' ', indent, "utf-8"));
+	}
 
 
 

@@ -146,8 +146,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sources\filing\iotxt.h" />
-    <ClInclude Include="sources\filing\ioxml.h" />
+    <ClInclude Include="sources\io\iotxt.h" />
+    <ClInclude Include="sources\io\ioxml.h" />
     <ClInclude Include="sources\nn\activation.h" />
     <ClInclude Include="sources\nn\layerset.h" />
     <ClInclude Include="sources\nn\optimizer.h" />
@@ -168,7 +168,7 @@
     <ClInclude Include="sources\nn\optimizer\adabound.h" />
     <ClInclude Include="sources\nn\optimizer\amsbound.h" />
     <ClInclude Include="sources\nn\trainer.h" />
-    <ClInclude Include="sources\reading\img1ch.h" />
+    <ClInclude Include="sources\io\ioimg.h" />
     <ClInclude Include="sources\util\exchanding.h" />
     <ClInclude Include="sources\util\timer.h" />
     <ClInclude Include="sources\vec\function.h" />
