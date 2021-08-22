@@ -52,11 +52,11 @@ namespace nn {
 
 		dW[count] = vec::dot(vec::trans(Memory_X[count]), backward_propagate);
 
-		vec::vector1d tmp_db(backward_propagate[0].size());
-		const size_t max_a = backward_propagate[0].size();
-		const size_t max_b = backward_propagate.size();
-		for (size_t i = 0; i < max_a; ++i) {
-			for (size_t j = 0; j < max_b; ++j) {
+		const size_t col = backward_propagate[0].size();
+		const size_t row = backward_propagate.size();
+		vec::vector1d tmp_db(col);
+		for (size_t i = 0; i < col; ++i) {
+			for (size_t j = 0; j < row; ++j) {
 				tmp_db[i] += backward_propagate[j][i];
 			}
 		}

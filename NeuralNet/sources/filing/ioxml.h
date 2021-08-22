@@ -83,7 +83,7 @@ namespace filing {
 		ptree pt;
 
 		//訓練データのサイズ
-		pt.add("root.DataSize", layerset.weights[0][0].size());
+		pt.add("root.DataSize", layerset.weights[0].size());
 
 		//ラベルのサイズ
 		pt.add("root.LabelSize", layerset.weights[layerset.weights.size() - 1][0].size());

@@ -62,6 +62,8 @@ namespace nn {
 		}
 
 		inline double get_loss() const { return loss; }
+		inline size_t get_input_size() const { return weights[0].size(); }
+		inline size_t get_output_size() const { return weights[weights.size() - 1][0].size(); }
 		
 		LayerSet get_layerset() const;
 	};

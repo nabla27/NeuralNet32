@@ -5,6 +5,7 @@
 #include <string>
 #include <random>
 #include "vec/function.h"
+#include "util/exchanding.h"
 
 
 
@@ -48,17 +49,14 @@ namespace nn {
 	void LayerSet::initialize(const InitType type, const double val)
 	{
 		//データがセットされていない場合の例外処理
-		if (data_size == 0) {
-			std::cout << "ERROR : layerset.h(" << __LINE__ << ") <LayerSet::initialize>" << std::endl;
-			throw std::runtime_error("Data and label must be set the size to initialize.");
-		}
+		if (data_size == 0) { exchandling::empty_data(__FILE__, __LINE__, "LayerSet::initialize"); }
 
 		std::random_device rnd;
-		std::mt19937 mt(rnd());	        //乱数のシード値を取得
+		std::mt19937 mt(rnd());         //乱数のシード値を取得
 
-		weights.clear(); bias.clear();	//重みとバイアスをリセット
+		weights.clear(); bias.clear();  //重みとバイアスをリセット
 
-		std::vector<size_t> index;	    //重みとバイアスのサイズを一時記憶する配列
+		std::vector<size_t> index;      //重みとバイアスのサイズを一時記憶する配列
 
 		index.push_back(data_size);
 		for (size_t i = 0; i < node.size(); i++) { index.push_back(node[i]); }

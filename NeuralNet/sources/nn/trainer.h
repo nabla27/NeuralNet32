@@ -7,6 +7,7 @@
 #include "optimizer.h"
 #include "filing/iotxt.h"
 #include "filing/ioxml.h"
+#include "util/timer.h"
 
 
 
@@ -36,23 +37,6 @@ namespace nn {
 
 
 
-
-
-	//指定した時間の差分(ミリ秒)を経過日時に変換し、標準出力する
-	void show_time(const clock_t start, const clock_t end)
-	{
-		const clock_t diff = (end - start) / CLOCKS_PER_SEC;
-		const clock_t minutes = diff / 60;
-		const clock_t hours = minutes / 60;
-		const clock_t days = hours / 24;
-		std::cout << "time: "
-			<< days << "days "
-			<< hours - days * 24 << "hours "
-			<< minutes - hours * 60 << "minutes "
-			<< diff - minutes * 60 << "seconds "
-			<< std::endl;
-		(void)std::getchar();
-	}
 
 
 
@@ -117,16 +101,15 @@ namespace nn {
 		const vec::vector2d& train_t
 	)
 	{
-		//訓練データとラベルのサイズが合わない場合の例外処理
-		if (train_x.size() != train_t.size()) {
-			std::cout << "ERROR : trainer.h(" << __LINE__ << ") <Trainer::train_data>" << std::endl;
-			throw std::runtime_error("The size of data and label for training must be the same.");
-		}
+		//訓練データとそのラベルのサイズが合わない場合の例外処理
+		if (train_x.size() != train_t.size()) { exchandling::mismatch_data_size(__FILE__, __LINE__, "Trainer::trian_data"); }
 		//データが空である場合の例外処理
-		if (train_x.size() == 0) {
-			std::cout << "ERROR : trainer.h(" << __LINE__ << ") <Trainer::train_data>" << std::endl;
-			throw std::runtime_error("The data for training is empty.");
-		}
+		if (train_x.size() == 0) { exchandling::empty_data(__FILE__, __LINE__, "Trainer::train_data"); }
+		//訓練データのサイズが入力層のニューロン数と異なる時の例外処理
+		if (train_x[0].size() != network.get_input_size()) { exchandling::invalid_data_size(__FILE__, __LINE__, "Trainer::train_data"); }
+		//ラベルのサイズが出力層のニューロン数と異なる時の例外処理
+		if (train_t[0].size() != network.get_output_size()) { exchandling::invalid_data_size(__FILE__, __LINE__, "Trainer::train_data"); }
+
 		this->train_x = train_x;
 		this->train_t = train_t;
 	}
@@ -143,16 +126,15 @@ namespace nn {
 		const vec::vector2d& test_t
 	)
 	{
-		//訓練データとラベルのサイズが合わない場合の例外処理
-		if (test_x.size() != test_t.size()) {
-			std::cout << "ERROR : trainer.h(" << __LINE__ << ") <Trainer::test_data>" << std::endl;
-			throw std::runtime_error("The size of data and label for testing must be the same.");
-		}
+		//テストデータとそのラベルのサイズが合わない場合の例外処理
+		if (test_x.size() != test_t.size()) { exchandling::mismatch_data_size(__FILE__, __LINE__, "Trainer::test_data"); }
 		//データが空である場合の例外処理
-		if (test_x.size() == 0) {
-			std::cout << "ERROR : trainer.h(" << __LINE__ << ") <Trainer::test_data>" << std::endl;
-			throw std::runtime_error("The data for testing is empty.");
-		}
+		if (test_x.size() == 0) { exchandling::empty_data(__FILE__, __LINE__, "Trainer::test_data"); }
+		//テストデータのサイズが入力層のニューロン数と異なる時の例外処理
+		if (test_x[0].size() != network.get_input_size()) { exchandling::invalid_data_size(__FILE__, __LINE__, "Trainer::test_data"); }
+		//ラベルのサイズが出力層のニューロン数と異なる時の例外処理
+		if (test_t[0].size() != network.get_output_size()) { exchandling::invalid_data_size(__FILE__, __LINE__, "Trainer::test_data"); }
+
 		this->test_x = test_x;
 		this->test_t = test_t;
 	}
@@ -167,20 +149,14 @@ namespace nn {
 	void Trainer<OptType, ActType, OutType>::train(const TrainCustom custom)
 	{
 		/* データがセットされていなかった場合の例外処理 */
-		if (train_x.size() == 0) {
-			std::cout << "ERROR : trainer.h(" << __LINE__ << ") <Trainer::train>" << std::endl;
-			throw std::runtime_error("The data for trainig is empty.");
-		}
+		if (train_x.size() == 0) { exchandling::empty_data(__FILE__, __LINE__, "Trainer::train"); }
 
 		/* 指定したバッチサイズがデータサイズよりも大きかった場合の例外処理 */
-		if (train_x.size() < custom.batch_size) {
-			std::cout << "ERROR : trainer.h(" << __LINE__ << ") <Trainer::train>" << std::endl;
-			throw std::runtime_error("The batch size must be less than data size.");
-		}
+		if (train_x.size() < custom.batch_size) { exchandling::invalid_batch_size(__FILE__, __LINE__, "Trainer::train"); }
 
-		bool train_breaker = false;
-		float train_acc = 0;  //訓練データの精度
-		float test_acc = 0;   //テストデータの精度
+		bool break_flag = false;                   //訓練を終了するフラグ
+		float train_acc = 0;                       //訓練データの精度
+		float test_acc = 0;                        //テストデータの精度
 		vec::vector2d batch_x(custom.batch_size);  //訓練データのバッチ
 		vec::vector2d batch_t(custom.batch_size);  //ラベルのバッチ
 
@@ -277,15 +253,15 @@ namespace nn {
 			if (_kbhit())
 			{
 				switch (_getch()) {
-				case 't': show_time(start, clock()); break;  //経過時間の確認
-				case 'f': train_breaker = true; break;       //訓練の終了
-				case 's': (void)getchar(); break;            //一時停止
+				case 't': show_et(start, clock()); break;  //経過時間の確認
+				case 'f': break_flag = true; break;        //訓練の終了
+				case 's': (void)_getch(); break;           //一時停止
 				default: break;
 				}
 			}
 
 			//訓練の終了
-			if (train_breaker) { break; }
+			if (break_flag) { break; }
 		}
 
 
@@ -298,7 +274,7 @@ namespace nn {
 #endif
 
 		/* 学習時間を経過日時を出力 */
-		show_time(start, clock());
+		show_et(start, clock());
 
 	}
 

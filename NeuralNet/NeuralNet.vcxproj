@@ -169,6 +169,8 @@
     <ClInclude Include="sources\nn\optimizer\amsbound.h" />
     <ClInclude Include="sources\nn\trainer.h" />
     <ClInclude Include="sources\reading\img1ch.h" />
+    <ClInclude Include="sources\util\exchanding.h" />
+    <ClInclude Include="sources\util\timer.h" />
     <ClInclude Include="sources\vec\function.h" />
     <ClInclude Include="sources\vec\operator.h" />
     <ClInclude Include="sources\neuralnet32_nn.h" />
