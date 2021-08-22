@@ -16,7 +16,13 @@ namespace nn {
 
 
 
-	enum class InitType { He, Xavier, Std, Unify };
+	enum class InitType 
+	{ 
+		He,      //前層のニューロン数をnとして、標準偏差sqrt{2/n}のガウス分布で初期化
+		Xavier,  //前層のニューロン数をnとして、標準偏差sqrt{1/n}のガウス分布で初期化
+		Std,     //引数で指定した標準偏差のガウス分布で初期化
+		Unify    //引数で指定した値で一律に初期化
+	};
 
 
 

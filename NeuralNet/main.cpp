@@ -1,14 +1,15 @@
 #define USE_OPENCV
 #include "neuralnet32_nn.h"
+#if HAS_OPENCV_HEADER
 #pragma comment(lib, "opencv_world452.lib")
-#include "util/exchanding.h"
+#endif
 
 
 
 int main()
 {
 
-#if 1 //MNISTデータ
+#if HAS_OPENCV_HEADER //MNISTデータ
 
 	/* 画像の読み取り */
 	reading::Img1ch read_train_img;
@@ -47,20 +48,6 @@ int main()
 #endif
 
 
-	vec::vector2d tt_x =
-	{
-		{1, 2, 3},
-		{1, 4, 5},
-		{1, 5, 3},
-	};
-	vec::vector2d tt_t =
-	{
-		{0, 0, 1},
-		{1, 0, 0},
-		{0, 1, 0},
-	};
-
-
 
 	try 
 	{
@@ -81,10 +68,10 @@ int main()
 		custom.xml_span = 0;
 
 		/* 学習の開始 */
-		nn::Trainer 
-			<
+		nn::Trainer <
 			nn::OPTIMIZER::AdaBelief,
-			nn::ACTIVATION::tanhExp
+			nn::ACTIVATION::tanhExp,
+			nn::ACTIVATION::Softmax
 			> trainer(layerset);
 		trainer.train_data(train_x, train_t);
 		trainer.test_data(test_x, test_t);
@@ -93,14 +80,12 @@ int main()
 
 
 
-
-
-
-
 	}
 	catch (const std::runtime_error& error) {
 		std::cout << error.what() << std::endl;
 	}
+
+
 
 	return 0;
 }
