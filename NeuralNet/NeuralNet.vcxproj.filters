@@ -20,94 +20,94 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sources\vec\function.h">
+    <ClInclude Include="include\vec\function.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\vec\operator.h">
+    <ClInclude Include="include\vec\operator.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\io\iotxt.h">
+    <ClInclude Include="include\io\iotxt.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\io\ioxml.h">
+    <ClInclude Include="include\io\ioxml.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\io\ioimg.h">
+    <ClInclude Include="include\io\ioimg.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\activation.h">
+    <ClInclude Include="include\nn\activation.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\layerset.h">
+    <ClInclude Include="include\nn\layerset.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer.h">
+    <ClInclude Include="include\nn\optimizer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\sgd.h">
+    <ClInclude Include="include\nn\optimizer\sgd.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\network.h">
+    <ClInclude Include="include\nn\network.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\trainer.h">
+    <ClInclude Include="include\nn\trainer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\momentum.h">
+    <ClInclude Include="include\nn\optimizer\momentum.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\nag.h">
+    <ClInclude Include="include\nn\optimizer\nag.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\adagrad.h">
+    <ClInclude Include="include\nn\optimizer\adagrad.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\rmsprop.h">
+    <ClInclude Include="include\nn\optimizer\rmsprop.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\adam.h">
+    <ClInclude Include="include\nn\optimizer\adam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\rmsptopgraves.h">
+    <ClInclude Include="include\nn\optimizer\rmsptopgraves.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\adamax.h">
+    <ClInclude Include="include\nn\optimizer\adamax.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\nadam.h">
+    <ClInclude Include="include\nn\optimizer\nadam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\amsgrad.h">
+    <ClInclude Include="include\nn\optimizer\amsgrad.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\adabelief.h">
+    <ClInclude Include="include\nn\optimizer\adabelief.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\adadelta.h">
+    <ClInclude Include="include\nn\optimizer\adadelta.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\smorms3.h">
+    <ClInclude Include="include\nn\optimizer\smorms3.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\adabound.h">
+    <ClInclude Include="include\nn\optimizer\adabound.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\nn\optimizer\amsbound.h">
+    <ClInclude Include="include\nn\optimizer\amsbound.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\neuralnet32_nn.h">
+    <ClInclude Include="include\neuralnet32_nn.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\util\exchanding.h">
+    <ClInclude Include="include\util\exchanding.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\util\timer.h">
+    <ClInclude Include="include\util\timer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\util\dir.h">
+    <ClInclude Include="include\util\dir.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sources\util\cast.h">
+    <ClInclude Include="include\util\cast.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
