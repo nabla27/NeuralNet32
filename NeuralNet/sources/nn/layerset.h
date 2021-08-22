@@ -81,10 +81,14 @@ namespace nn {
 		{
 			const size_t row = weights[i].size();
 
-			double variance = val;	//•W€•Î·
-			if (type == InitType::He) { variance = sqrt(2 / (double)index[i]); }
-			else if (type == InitType::Xavier) { variance = sqrt(1 / (double)index[i]); }
-			else if (type == InitType::Std) { variance = val; }
+			//•W€•Î·‚Ìw’è
+			double variance = val;
+			switch ((int)type) {
+			case 0: variance = sqrt(2 / (double)index[i]); break;
+			case 1: variance = sqrt(1 / (double)index[i]); break;
+			case 2: variance = val; break;
+			default: break;
+			}
 
 			if (type != InitType::Unify)
 			{
@@ -97,15 +101,7 @@ namespace nn {
 					}
 				}
 			}
-			else if (type == InitType::Unify)
-			{
-				for (size_t j = 0; j < row; j++) {
-					const size_t col = weights[i][j].size();
-					for (size_t k = 0; k < col; k++) {
-						weights[i][j][k] = val;
-					}
-				}
-			}
+			else if (type == InitType::Unify) { vec::initequal(weights, val); }
 		}
 	}
 
