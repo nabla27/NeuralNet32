@@ -35,7 +35,7 @@
 ### Network function
 
 - backpropagation
-- gradient method
+- 
   - AdaBelief
   - AdaBound
   - AdaDelta
