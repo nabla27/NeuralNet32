@@ -95,20 +95,110 @@ namespace vec {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 	//データの周囲に固定のデータを埋める(パディング)
-	vector2d padding(const vector2d& mat, const size_t wide = 1, const double val = 0)
+	vector2d padding(
+		const vector2d& mat, 
+		const size_t width = 1,   //パディングする幅
+		const double val = 0      //paddingで拡張された部分の値
+	)
 	{
 		const size_t row = mat.size();     //行数
 		const size_t col = mat[0].size();  //列数
-		vector2d padded(row + 2 * wide, vector1d(col + 2 * wide, val));  //パディング後の行列
+		vector2d padded(row + 2 * width, vector1d(col + 2 * width, val));  //パディング後の行列
 
 		for (size_t i = 0; i < row; ++i) {
 			for (size_t j = 0; j < col; ++j) {
-				padded[i + wide][j + wide] = mat[i][j];
+				padded[i + width][j + width] = mat[i][j];
 			}
 		}
 
 		return padded;
+	}
+
+
+
+
+
+	//Max Pooling
+	vector2d pooling_max(
+		const vector2d& mat,   //poolingするvector(double)型の行列
+		const size_t width,    //ウィンドウの上下幅
+		const size_t stride    //ウィンドウを移動させる歩幅
+	)
+	{
+		const size_t Mr = mat.size();      //引数matの行数
+		const size_t Mc = mat[0].size();   //引数matの列数
+		const size_t Pr = (Mr - width) / stride + 1;   //pooling後の行数
+		const size_t Pc = (Mc - width) / stride + 1;   //Pooling後の列数
+		vector2d pooling(Pr, vector1d(Pc));
+
+		//i,jはpoolingの添え字に対応
+		for (size_t i = 0; i < Pr; ++i) {
+			for (size_t j = 0; j < Pc; ++j) 
+			{
+				//ウィンドウ内(Mi,Mj)の最大値を捜索
+				size_t max_index_row = i * stride, max_index_col = j * stride;   //ウィンドウ内の最大値のインデックスを記憶しておく変数
+				for (size_t Mi = i * stride; Mi < i * stride + width; Mi++) {
+					for (size_t Mj = j * stride; Mj < j * stride + width; Mj++) {
+						if (mat[Mi][Mj] > mat[max_index_row][max_index_col]) { max_index_row = Mi; max_index_col = Mj; }
+					}
+				}
+
+				//最大値を代入
+				pooling[i][j] = mat[max_index_row][max_index_col];
+			}
+		}
+
+		return pooling;
+	}
+
+
+
+
+
+	//Average Pooling
+	vector2d pooling_average(
+		const vector2d& mat,
+		const size_t width,   //ウィンドウの上下幅
+		const size_t stride   //ウィンドウを移動させる歩幅
+	)
+	{
+		const size_t Mr = mat.size();      //引数matの行数
+		const size_t Mc = mat[0].size();   //引数matの列数
+		const size_t Pr = (Mr - width) / stride + 1;   //pooling後の行数
+		const size_t Pc = (Mc - width) / stride + 1;   //Pooling後の列数
+		vector2d pooling(Pr, vector1d(Pc));
+
+		//i,jはpoolingの添え字に対応
+		for (size_t i = 0; i < Pr; ++i) {
+			for (size_t j = 0; j < Pc; ++j)
+			{
+				//ウィンドウ内(Mi,Mj)の値を足し合わせる
+				double sum = 0;   //ウィンドウ内の値を集計
+				for (size_t Mi = i * stride; Mi < i * stride + width; Mi++) {
+					for (size_t Mj = j * stride; Mj < j * stride + width; Mj++) {
+						sum += mat[Mi][Mj];
+					}
+				}
+
+				//平均値を算出
+				pooling[i][j] = sum / (static_cast<double>(width) * static_cast<double>(width));
+			}
+		}
+
+		return pooling;
 	}
 
 
