@@ -147,6 +147,21 @@ namespace vec {
 		return tmp;
 	}
 
+	double max(const vector2d& mat)
+	{
+		const size_t row = mat.size();
+		const size_t col = mat[0].size();
+
+		double max = 0;
+		for (size_t i = 0; i < row; ++i) {
+			for (size_t j = 0; j < col; ++j) {
+				if (max < mat[i][j]) { max = mat[i][j]; }
+			}
+		}
+
+		return max;
+	}
+
 	vector2d clip(const vector2d& mat, const double min, const double max)
 	{
 		const size_t row = mat.size();

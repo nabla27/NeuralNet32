@@ -27,7 +27,7 @@ int main()
 		vec::vector2d train_t = read_train_img.get_t();
 		vec::vector2d test_x = read_test_img.get_x();
 		vec::vector2d test_t = read_test_img.get_t();
-		{   //³‹K‰»
+		{   //‘Oˆ—
 			using namespace vec;
 			train_x = train_x / 255;
 			test_x = test_x / 255;
@@ -74,7 +74,7 @@ int main()
 
 
 
-#endif HAS_OPENCV_HEADER && HAS_CPLUS_17//
+#endif //HAS_OPENCV_HEADER && HAS_CPLUS_17
 
 
 	return 0;
