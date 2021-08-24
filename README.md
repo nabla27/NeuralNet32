@@ -29,3 +29,32 @@
 # License
 
 "NeuralNet32" is under [MIT license](https://opensource.org/licenses/mit-license.php).
+
+### Network function
+
+- backpropagation
+- gradient method
+  - AdaBelief
+  - AdaBound
+  - AdaDelta
+  - AdaGrad
+  - Adam
+  - AdaMax
+  - AMSBound
+  - AMSGrad
+  - Momentum
+  - NAdam
+  - NAG
+  - RMSprop
+  - RMSpropGraves
+  - SGD
+  - SMORMS3
+- weights initialization
+  - He
+  - Xavier
+  - standard normal distribution
+  - all same value
+- loss
+  - entoropy error
+- dropout
+- batch learning
