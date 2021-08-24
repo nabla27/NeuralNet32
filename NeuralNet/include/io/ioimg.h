@@ -241,7 +241,7 @@ namespace io {
 	)
 	{
 		//引数で指定されたサイズとvector配列のサイズが一致しない例外処理
-		if (mat.size() != (size_t)row * (size_t)col) { exchandling::mismatch_data_size(__FILE__, __LINE__, "to_img"); }
+		if (mat.size() != (size_t)row * (size_t)col) { exchandling::invalid_data_size(__FILE__, __LINE__, "to_img"); }
 
 		const int dimensions = 2;                   //次元数
 		const int sizes[dimensions] = { row, col }; //画像サイズ

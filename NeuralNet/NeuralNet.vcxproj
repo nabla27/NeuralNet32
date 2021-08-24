@@ -176,6 +176,7 @@
     <ClInclude Include="include\vec\function.h" />
     <ClInclude Include="include\vec\operator.h" />
     <ClInclude Include="include\neuralnet32_nn.h" />
+    <ClInclude Include="include\vec\preprocessing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
