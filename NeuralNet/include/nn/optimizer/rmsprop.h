@@ -1,3 +1,8 @@
+/*  LICENSE
+	Copyright (c) 2021, nabla All rights reserved.
+	Use of this source code is governed by a MIT license that can be found
+	in the LICENSE file.
+*/
 #ifndef NN_OPTIMIZER_RMSPROP_H
 #define NN_OPTIMIZER_RMSPROP_H
 

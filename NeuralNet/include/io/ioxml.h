@@ -1,3 +1,14 @@
+//          Copyright Joe Coder 2004 - 2006. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          https://www.boost.org/LICENSE_1_0.txt)
+
+/*  LICENSE
+	Copyright (c) 2021, nabla All rights reserved.
+	Use of this source code is governed by a MIT license that can be found
+	in the LICENSE file.
+*/
+
 #ifndef IO_IOXML_H
 #define IO_IOXML_H
 

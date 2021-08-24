@@ -1,3 +1,8 @@
+/*  LICENSE
+	Copyright (c) 2021, nabla All rights reserved.
+	Use of this source code is governed by a MIT license that can be found
+	in the LICENSE file.
+*/
 #include "neuralnet32_nn.h"
 #include "io/ioimg.h"
 #if HAS_OPENCV_HEADER && HAS_CPLUS_17

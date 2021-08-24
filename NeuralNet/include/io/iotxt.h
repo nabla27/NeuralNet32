@@ -1,3 +1,8 @@
+/*  LICENSE
+	Copyright (c) 2021, nabla All rights reserved.
+	Use of this source code is governed by a MIT license that can be found
+	in the LICENSE file.
+*/
 #ifndef IO_IOTXT_H
 #define IO_IOTXT_H
 

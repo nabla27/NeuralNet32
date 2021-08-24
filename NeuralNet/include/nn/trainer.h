@@ -1,3 +1,8 @@
+/*  LICENSE
+	Copyright (c) 2021, nabla All rights reserved.
+	Use of this source code is governed by a MIT license that can be found
+	in the LICENSE file.
+*/
 #ifndef NN_TRAINER_H
 #define NN_TRAINER_H
 
@@ -16,7 +21,7 @@
 #endif
 
 #ifdef _MSVC_LANG
-#if (_MSVC_LANG >= 201703L)	//c++17 or later
+#if (_MSVC_LANG >= 201703L)	 //c++17 or later
 
 #undef HAS_CPLUS_17
 #define HAS_CPLUS_17 1
@@ -25,7 +30,7 @@
 #endif
 
 #ifdef __cplusplus
-#if (__cplusplus >= 201703L)	//c++17 or later
+#if (__cplusplus >= 201703L) //c++17 or later
 
 #undef HAS_CPLUS_17
 #define HAS_CPLUS_17 1
