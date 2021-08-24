@@ -23,23 +23,21 @@ int main()
 		io::ReadImg read_test_img;
 		read_train_img.to_vector("E:/MNIST/IMG/train_x", 1);
 		read_test_img.to_vector("E:/MNIST/IMG/test_x", 1);
-		vec::vector2d train_x = read_train_img.get_x();
-		vec::vector2d train_t = read_train_img.get_t();
-		vec::vector2d test_x = read_test_img.get_x();
-		vec::vector2d test_t = read_test_img.get_t();
+		vec::vector2d train_x = read_train_img.get_x();     //training data
+		vec::vector2d train_t = read_train_img.get_t();     //label of training data
+		vec::vector2d test_x = read_test_img.get_x();       //testing data
+		vec::vector2d test_t = read_test_img.get_t();       //label of testing data
 
 		//前処理
 		{ using namespace vec;
-			size_t training_data_size = train_x.size();
-			size_t testing_data_size = test_x.size();
 
-			for (size_t i = 0; i < training_data_size; ++i) 
+			for (size_t i = 0; i < train_x.size(); ++i) 
 			{
 				vector2d _train_x = reshape_to<vector2d>(train_x[i], read_train_img.get_row(), read_train_img.get_col());
 				_train_x = padding(_train_x, 2, 0);
 				_train_x = pooling_average(_train_x, 5, 1);
 				train_x[i] = reshape_to<vector1d>(_train_x);
-				if (i < testing_data_size) 
+				if (i < test_x.size()) 
 				{
 					vector2d _test_x = reshape_to<vector2d>(test_x[i], read_test_img.get_row(), read_test_img.get_col());
 					_test_x = padding(_test_x, 2, 0);
@@ -51,6 +49,37 @@ int main()
 			train_x = train_x / 255;
 			test_x = test_x / 255;
 		}
+
+#else //XORゲート
+		vec::vector2d train_x =
+		{
+			{0,0},
+			{0,1},
+			{1,0},
+			{1,1},
+		};
+		vec::vector2d train_t =
+		{
+			{1,0},
+			{0,1},
+			{0,1},
+			{1,0},
+		};
+		vec::vector2d test_x = train_x;
+		vec::vector2d test_t = train_t;
+
+#endif //HAS_OPENCV_HEADER && HAS_CPLUS_17
+
+
+
+
+
+
+
+
+
+
+
 
 		/* ノード数の指定、重み・バイアスの初期化 */
 		nn::LayerSet layerset(train_x[0].size(), train_t[0].size());
@@ -89,9 +118,6 @@ int main()
 		std::cout << error.what() << std::endl;
 	}
 
-
-
-#endif //HAS_OPENCV_HEADER && HAS_CPLUS_17
 
 
 	return 0;
