@@ -30,17 +30,17 @@ namespace vec {
 		//指定した行数または列数が渡されたmatと合わない
 		if (mat.size() != row * col) { exchandling::invalid_data_size(__FILE__, __LINE__, "reshape_to"); }
 	
-		vector2d reshaped_mat(row, vector1d(col));
+		vector2d reshaped(row, vector1d(col));
 		
 		size_t index = 0;
 		for (size_t i = 0; i < row; ++i) {
 			for (size_t j = 0; j < col; ++i) {
-				reshaped_mat[i][j] = mat[index];
+				reshaped[i][j] = mat[index];
 				index++;
 			}
 		}
 
-		return reshaped_mat;
+		return reshaped;
 	}
 
 
@@ -52,16 +52,16 @@ namespace vec {
 	{
 		const size_t mat_row = mat.size();
 		const size_t mat_col = mat[0].size();
-		vector1d reshaped_mat(mat_row * mat_col);
+		vector1d reshaped(mat_row * mat_col);
 
 		size_t index = 0;
 		for (size_t i = 0; i < mat_row; ++i) {
 			for (size_t j = 0; j < mat_col; ++j) {
-				reshaped_mat[index] = mat[i][j];
+				reshaped[index] = mat[i][j];
 			}
 		}
 
-		return reshaped_mat;
+		return reshaped;
 	}
 
 
@@ -76,20 +76,41 @@ namespace vec {
 
 		const size_t mat_row = mat.size();
 		const size_t mat_col = mat[0].size();
-		vector2d reshaped_mat(row, vector1d(col));
+		vector2d reshaped(row, vector1d(col));
 		
 		size_t index_r = 0, index_c = 0;
 		for (size_t i = 0; i < mat_row; ++i) {
 			for (size_t j = 0; j < mat_col; ++j) 
 			{
-				reshaped_mat[index_r][index_c] = mat[i][j];
+				reshaped[index_r][index_c] = mat[i][j];
 
 				if (index_c == col) { index_r++; index_c = 0; }
 			}
 		}
 
-		return reshaped_mat;
+		return reshaped;
 	}
+
+
+
+
+
+	//データの周囲に固定のデータを埋める(パディング)
+	vector2d padding(const vector2d& mat, const size_t wide = 1, const double val = 0)
+	{
+		const size_t row = mat.size();     //行数
+		const size_t col = mat[0].size();  //列数
+		vector2d padded(row + 2 * wide, vector1d(col + 2 * wide, val));  //パディング後の行列
+
+		for (size_t i = 0; i < row; ++i) {
+			for (size_t j = 0; j < col; ++j) {
+				padded[i + wide][j + wide] = mat[i][j];
+			}
+		}
+
+		return padded;
+	}
+
 
 
 
