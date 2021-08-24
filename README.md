@@ -1,5 +1,7 @@
 # NeuralNet32
 
+A practice library for simply implementing a simple neural network.
+
 シンプルなニューラルネットワークをシンプルに実装するための自分練習用ライブラリ。
 
 <!-- # DEMO
@@ -35,7 +37,7 @@
 ### Network function
 
 - backpropagation
-- 
+- optimizer algolithm
   - AdaBelief
   - AdaBound
   - AdaDelta
