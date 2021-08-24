@@ -16,8 +16,6 @@ int main()
 
 #if HAS_OPENCV_HEADER && HAS_CPLUS_17 //MNISTデータ
 
-
-
 		/* 画像の読み取り */
 		io::ReadImg read_train_img;
 		io::ReadImg read_test_img;
@@ -83,31 +81,31 @@ int main()
 
 		/* ノード数の指定、重み・バイアスの初期化 */
 		nn::LayerSet layerset(train_x[0].size(), train_t[0].size());
-		layerset.set_node({ 100 });
+		layerset.set_node({ 1024, 512, 256 });
 		layerset.initialize(nn::InitType::He);
 
 
 
 		/* 学習の詳細設定 */
 		nn::TrainCustom custom;
-		custom.acc_span = 200;
-		custom.batch_size = 100;
-		custom.dropout_ratio = 0.1;
-		custom.learning_step = 50000;
-		custom.xmlout_inf = 0.98f;
-		custom.xml_span = 0;
+		custom.acc_span = 200;         //Outputting accuracy span.
+		custom.batch_size = 100;       //Batch size. if you set 0, it do not batch learning.
+		custom.dropout_ratio = 0.5;    //Dropout ratio. if you set0, it do not dropout.
+		custom.learning_step = 70000;  //The number of leaning step (not epoch).
+		custom.xmlout_inf = 0.98f;     //Lower limit of accuracy to output parameters such as weights, bias as xml files.
+		custom.xml_span = 0;           //The span of outputting xml file to save parameters.
 
 
 
 		/* 学習 */
 		nn::Trainer <
-			nn::OPTIMIZER::AdaBelief,
-			nn::ACTIVATION::tanhExp,
-			nn::ACTIVATION::Softmax
+			nn::OPTIMIZER::AdaBelief,   //Optimizer
+			nn::ACTIVATION::tanhExp,    //Hidden Layer Activation
+			nn::ACTIVATION::Softmax     //Output Layer Activation
 			> trainer(layerset);
 		trainer.set_TrainData(train_x, train_t);
 		trainer.set_TestData(test_x, test_t);
-		trainer.set_OutputPath("E:/MNIST/data/08242316/mnist");
+		trainer.set_OutputPath("E:/MNIST/data/08250028/mnist");
 		trainer.train(custom);
 
 
@@ -118,6 +116,9 @@ int main()
 		std::cout << error.what() << std::endl;
 	}
 
+
+	//TrainerでTxtOutオブジェクトとXmlOutオブジェクトを持たせる
+	//ReadImgクラスでtemplate化
 
 
 	return 0;

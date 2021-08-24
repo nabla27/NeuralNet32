@@ -319,7 +319,7 @@ namespace nn {
 			if (_kbhit())
 			{
 				switch (_getch()) {
-				case 't': show_et(start, clock()); break;  //経過時間の確認
+				case 't': show_etime(start, clock()); break;  //経過時間の確認
 				case 'f': break_flag = true; break;        //訓練の終了
 				case 's': (void)_getch(); break;           //一時停止
 				default: break;
@@ -346,9 +346,10 @@ namespace nn {
 		outinfo.write("Output_Activation:", typename_to_str<OutType>());
 		outinfo.write("batch-size:   ", custom.batch_size);
 		outinfo.write("dropout-ratio:", custom.dropout_ratio);
+		outinfo.write("elapsed-time: ", get_string_etime(start, clock()));
 
 		/* 学習時間を経過日時を出力 */
-		show_et(start, clock());
+		show_etime(start, clock());
 
 	}
 
