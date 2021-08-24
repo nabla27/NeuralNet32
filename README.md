@@ -30,6 +30,8 @@
 
 "NeuralNet32" is under [MIT license](https://opensource.org/licenses/mit-license.php).
 
+***
+
 ### Network function
 
 - backpropagation
