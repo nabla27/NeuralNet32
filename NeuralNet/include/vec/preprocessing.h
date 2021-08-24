@@ -34,7 +34,7 @@ namespace vec {
 		
 		size_t index = 0;
 		for (size_t i = 0; i < row; ++i) {
-			for (size_t j = 0; j < col; ++i) {
+			for (size_t j = 0; j < col; ++j) {
 				reshaped[i][j] = mat[index];
 				index++;
 			}
@@ -58,6 +58,7 @@ namespace vec {
 		for (size_t i = 0; i < mat_row; ++i) {
 			for (size_t j = 0; j < mat_col; ++j) {
 				reshaped[index] = mat[i][j];
+				index++;
 			}
 		}
 

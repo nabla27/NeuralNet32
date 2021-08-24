@@ -29,6 +29,7 @@
 
 #include "vec/function.h"
 #include "vec/operator.h"
+#include "vec/preprocessing.h"
 
 
 

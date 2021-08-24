@@ -29,8 +29,30 @@ int main()
 		vec::vector2d test_t = read_test_img.get_t();
 		{   //‘Oˆ—
 			using namespace vec;
-			train_x = train_x / 255;
-			test_x = test_x / 255;
+			size_t training_data_size = train_x.size();
+			size_t testing_data_size = test_x.size();
+			
+			for (size_t i = 0; i < training_data_size; ++i) 
+			{
+				vector2d _train_x = reshape_to<vector2d>(train_x[i], read_train_img.get_row(), read_train_img.get_col());
+				show(_train_x, "1"); _getch();  //__DEBUG__
+				_train_x = padding(_train_x, 1, 0);
+				show(_train_x, "2"); _getch();  //__DEBUG__
+				_train_x = pooling_max(_train_x, 5, 1);
+				show(_train_x, "3"); _getch();  //__DEBUG__
+				train_x[i] = reshape_to<vector1d>(_train_x);
+				show(train_x[i], "4"); _getch(); //__DEBUG__
+				if (i < testing_data_size) 
+				{
+					vector2d _test_x = reshape_to<vector2d>(test_x[i], read_test_img.get_row(), read_test_img.get_col());
+					_test_x = padding(_test_x, 1, 0);
+					_test_x = pooling_max(_test_x, 5, 1);
+					test_x[i] = reshape_to<vector1d>(_test_x);
+				}
+				vec::show(train_x[0], "train");
+				vec::show(test_x[0], "test");
+				(void)std::getchar();
+			}
 		}
 
 
