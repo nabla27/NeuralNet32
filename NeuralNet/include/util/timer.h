@@ -40,7 +40,7 @@ std::string get_string_etime(const clock_t start, const clock_t end)
 	const clock_t hours = minutes / 60;
 	const clock_t days = hours / 24;
 
-	std::string output = "time: ";
+	std::string output = "";
 	output += std::to_string(days) + "days ";
 	output += std::to_string(hours - days * 24) + "hours ";
 	output += std::to_string(minutes - hours * 60) + "minutes ";
