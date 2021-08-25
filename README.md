@@ -32,6 +32,11 @@ A practice library for simply implementing a simple neural network.
 
 "NeuralNet32" is under [MIT license](https://opensource.org/licenses/mit-license.php).
 
+<br>
+<br>
+<br>
+<br>
+
 ***
 
 ### Network function
