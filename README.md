@@ -58,6 +58,10 @@ A practice library for simply implementing a simple neural network.
   - RMSpropGraves
   - SGD
   - SMORMS3
+- activation function
+  - ReLU
+  - tanhExp
+  - Softmax
 - weights initialization
   - He
   - Xavier
