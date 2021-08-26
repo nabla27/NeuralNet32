@@ -90,7 +90,7 @@ int main()
 		nn::TrainCustom custom;
 		custom.acc_span = 200;         //Outputting accuracy span.
 		custom.batch_size = 100;       //Batch size. if you set 0, it do not batch learning.
-		custom.dropout_ratio = 0.5;    //Dropout ratio. if you set0, it do not dropout.
+		custom.dropout_ratio = 0.1;    //Dropout ratio. if you set0, it do not dropout.
 		custom.learning_step = 70000;  //The number of leaning step (not epoch).
 		custom.xmlout_inf = 0.98f;     //Lower limit of accuracy to output parameters such as weights, bias as xml files.
 		custom.xml_span = 0;           //The span of outputting xml file to save parameters.
@@ -105,7 +105,7 @@ int main()
 			> trainer(layerset);
 		trainer.set_TrainData(train_x, train_t);
 		trainer.set_TestData(test_x, test_t);
-		trainer.set_OutputPath("E:/MNIST/data/08250028/mnist");
+		trainer.set_OutputPath("E:/MNIST/data/08252344/mnist");
 		trainer.train(custom);
 
 

@@ -13,7 +13,9 @@
 
 
 #include "io/iotxt.h"
+#ifndef REMOVE_BOOST_HEADER
 #include "io/ioxml.h"
+#endif
 #ifdef USE_OPENCV
 #include "io/ioimg.h"
 #endif
